@@ -240,6 +240,16 @@ importers:
 
   packages/config: {}
 
+  packages/three-utils:
+    dependencies:
+      three:
+        specifier: 0.182.0
+        version: 0.182.0
+    devDependencies:
+      typescript:
+        specifier: ^5
+        version: 5.0.2
+
   packages/ui:
     dependencies:
       '@iot/utils':
