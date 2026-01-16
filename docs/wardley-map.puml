@@ -1,0 +1,155 @@
+@startuml Wardley_Map_IoT_Platform
+!theme plain
+skinparam componentStyle rectangle
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontSize 11
+skinparam packageStyle rectangle
+skinparam linetype ortho
+
+title 沃德利地图 - IoT Hub 智能物联网监控平台\n(Wardley Map - Technology Evolution)
+
+' 定义演进阶段颜色和样式
+skinparam component {
+    BackgroundColor<<Genesis>> #FFE6E6
+    BackgroundColor<<Custom>> #FFF4E6
+    BackgroundColor<<Product>> #E6F3FF
+    BackgroundColor<<Commodity>> #E6FFE6
+}
+
+' 价值链从左到右：用户需求 -> 活动 -> 数据 -> 应用 -> 平台
+' 演进阶段从下到上：Commodity -> Product -> Custom Built -> Genesis
+
+package "价值链：用户需求 (User Needs)" #LightBlue {
+    [IoT设备监控\n需求] as UserNeed1 <<Genesis>>
+    [实时数据可视化\n需求] as UserNeed2 <<Custom>>
+    [设备管理\n需求] as UserNeed3 <<Product>>
+}
+
+package "价值链：活动 (Activities)" #LightGreen {
+    [设备管理\n活动] as Activity1 <<Custom>>
+    [实时监控\n活动] as Activity2 <<Custom>>
+    [数据分析\n活动] as Activity3 <<Product>>
+    [3D可视化\n活动] as Activity4 <<Genesis>>
+}
+
+package "价值链：数据 (Data)" #LightYellow {
+    [设备数据] as Data1 <<Product>>
+    [传感器数据] as Data2 <<Product>>
+    [时序数据] as Data3 <<Custom>>
+    [设备元数据] as Data4 <<Product>>
+}
+
+package "价值链：应用 (Application)" #LightCoral {
+    [Web应用\n(Next.js)] as App1 <<Product>>
+    [UI组件库\n(@iot/ui)] as App2 <<Custom>>
+    [图表组件库\n(@iot/charts)] as App3 <<Custom>>
+    [业务组件\n(IoT仪表盘)] as App4 <<Custom>>
+    [API服务] as App5 <<Product>>
+    [数据处理服务] as App6 <<Custom>>
+}
+
+package "价值链：平台 (Platform)" #LightGray {
+    [Next.js框架] as Platform1 <<Product>>
+    [React生态系统] as Platform2 <<Product>>
+    [TypeScript] as Platform3 <<Product>>
+    [Node.js运行时] as Platform4 <<Commodity>>
+    [ECharts图表库] as Platform5 <<Product>>
+    [Three.js/React Three Fiber] as Platform6 <<Product>>
+    [Vercel云平台] as Platform7 <<Commodity>>
+    [CDN服务] as Platform8 <<Commodity>>
+    [数据库服务] as Platform9 <<Commodity>>
+    [pnpm Workspaces] as Platform10 <<Product>>
+}
+
+' 用户需求到活动的连接
+UserNeed1 --> Activity1
+UserNeed1 --> Activity2
+UserNeed2 --> Activity2
+UserNeed2 --> Activity4
+UserNeed3 --> Activity1
+
+' 活动到数据的连接
+Activity1 --> Data1
+Activity1 --> Data4
+Activity2 --> Data2
+Activity2 --> Data3
+Activity3 --> Data3
+Activity4 --> Data1
+
+' 数据到应用的连接
+Data1 --> App1
+Data2 --> App1
+Data3 --> App6
+Data4 --> App5
+Data1 --> App4
+Data2 --> App3
+
+' 应用到平台的连接
+App1 --> Platform1
+App1 --> Platform2
+App2 --> Platform2
+App3 --> Platform5
+App4 --> Platform2
+App4 --> Platform6
+App5 --> Platform4
+App6 --> Platform4
+App1 --> Platform3
+App2 --> Platform3
+App3 --> Platform3
+App4 --> Platform3
+
+' 平台层内部依赖
+Platform1 --> Platform2
+Platform1 --> Platform3
+Platform1 --> Platform4
+Platform1 --> Platform10
+Platform2 --> Platform3
+Platform6 --> Platform2
+Platform1 --> Platform7
+Platform7 --> Platform8
+Platform7 --> Platform9
+
+' 演进阶段说明
+note right of UserNeed1
+  <b>Genesis (创新阶段)</b>
+  新兴需求，需要
+  创新解决方案
+end note
+
+note right of Activity4
+  <b>Genesis (创新阶段)</b>
+  3D可视化是
+  创新功能
+end note
+
+note right of App2
+  <b>Custom Built (定制构建)</b>
+  业务特定的
+  组件和服务
+end note
+
+note right of Platform1
+  <b>Product (产品化)</b>
+  成熟的框架
+  和工具
+end note
+
+note right of Platform7
+  <b>Commodity (商品化)</b>
+  标准化的
+  基础设施服务
+end note
+
+legend right
+  |= 演进阶段 |= 说明 |
+  | <color:#FFE6E6>Genesis</color> | 创新阶段，需要探索和实验 |
+  | <color:#FFF4E6>Custom Built</color> | 定制构建，针对特定需求 |
+  | <color:#E6F3FF>Product</color> | 产品化，成熟可用的解决方案 |
+  | <color:#E6FFE6>Commodity</color> | 商品化，标准化基础设施 |
+  |
+  |= 价值链方向 |= 说明 |
+  | 左 → 右 | 从用户需求到基础设施 |
+  | 下 → 上 | 从商品化到创新 |
+endlegend
+
+@enduml
