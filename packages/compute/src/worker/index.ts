@@ -17,7 +17,7 @@ export interface Task<T = any, R = any> {
  * Worker消息类型
  */
 interface WorkerMessage<T = any, R = any> {
-  type: 'execute' | 'terminate';
+  type: "execute" | "terminate";
   taskId: string;
   data?: T;
 }
@@ -26,7 +26,7 @@ interface WorkerMessage<T = any, R = any> {
  * Worker响应类型
  */
 interface WorkerResponse<R = any> {
-  type: 'result' | 'error';
+  type: "result" | "error";
   taskId: string;
   result?: R;
   error?: string;
@@ -59,7 +59,7 @@ export class WorkerPool {
     scriptUrl?: string | URL | ((task: Task) => string | URL),
     options: WorkerPoolOptions = {}
   ) {
-    this.scriptUrl = typeof scriptUrl === 'function' ? undefined : scriptUrl;
+    this.scriptUrl = typeof scriptUrl === "function" ? undefined : scriptUrl;
     this.size = options.size ?? navigator.hardwareConcurrency ?? 4;
     this.timeout = options.timeout ?? 30000;
     this.enableCache = options.enableCache ?? false;
@@ -70,7 +70,9 @@ export class WorkerPool {
   /**
    * 初始化Worker池
    */
-  private initializeWorkers(scriptUrl?: string | URL | ((task: Task) => string | URL)): void {
+  private initializeWorkers(
+    scriptUrl?: string | URL | ((task: Task) => string | URL)
+  ): void {
     for (let i = 0; i < this.size; i++) {
       // Worker将在实际使用时创建
       this.workers.push(null as any);
@@ -83,7 +85,9 @@ export class WorkerPool {
   private createWorker(scriptUrl?: string | URL): Worker {
     if (!scriptUrl) {
       // 创建内联Worker
-      const blob = new Blob([this.getDefaultWorkerScript()], { type: 'application/javascript' });
+      const blob = new Blob([this.getDefaultWorkerScript()], {
+        type: "application/javascript",
+      });
       return new Worker(URL.createObjectURL(blob));
     }
     return new Worker(scriptUrl);
@@ -168,9 +172,10 @@ export class WorkerPool {
 
     // 创建或获取Worker
     if (!this.workers[workerIndex]) {
-      const scriptUrl = typeof this.scriptUrl === 'function' 
-        ? this.scriptUrl(task)
-        : this.scriptUrl;
+      const scriptUrl =
+        typeof this.scriptUrl === "function"
+          ? this.scriptUrl(task)
+          : this.scriptUrl;
       this.workers[workerIndex] = this.createWorker(scriptUrl);
       this.setupWorkerListeners(workerIndex);
     }
@@ -180,7 +185,7 @@ export class WorkerPool {
 
     const worker = this.workers[workerIndex];
     const message: WorkerMessage = {
-      type: 'execute',
+      type: "execute",
       taskId: task.id,
       data: task.data,
     };
@@ -192,7 +197,7 @@ export class WorkerPool {
       if (this.taskMap.has(task.id)) {
         this.taskMap.delete(task.id);
         this.busy.delete(workerIndex);
-        task.onError?.(new Error('Task timeout'));
+        task.onError?.(new Error("Task timeout"));
         this.processQueue();
       }
     }, this.timeout);
@@ -223,14 +228,14 @@ export class WorkerPool {
       this.taskMap.delete(taskId);
       this.busy.delete(workerIndex);
 
-      if (type === 'result' && result !== undefined) {
+      if (type === "result" && result !== undefined) {
         // 缓存结果
         if (this.enableCache) {
           const cacheKey = this.getCacheKey(task);
           this.cache.set(cacheKey, result);
         }
         task.onResult?.(result);
-      } else if (type === 'error' && error) {
+      } else if (type === "error" && error) {
         task.onError?.(new Error(error));
       }
 
@@ -243,7 +248,7 @@ export class WorkerPool {
         if (this.workers[workerIndex] === worker) {
           this.taskMap.delete(taskId);
           this.busy.delete(workerIndex);
-          task.onError?.(new Error(error.message || 'Worker error'));
+          task.onError?.(new Error(error.message || "Worker error"));
         }
       }
       this.processQueue();
@@ -351,9 +356,9 @@ export class TaskQueue {
 
     while (this.queue.length > 0) {
       const batch = this.queue.splice(0, this.concurrency);
-      
+
       await Promise.all(
-        batch.map(task => {
+        batch.map((task) => {
           return new Promise<void>((resolve) => {
             try {
               // 默认执行器（可以被覆盖）
@@ -405,14 +410,18 @@ export function createWorker(scriptUrl: string | URL): Worker {
  * @returns Worker实例
  */
 export function createInlineWorker(script: string): Worker {
-  const blob = new Blob([script], { type: 'application/javascript' });
+  const blob = new Blob([script], { type: "application/javascript" });
   const url = URL.createObjectURL(blob);
   const worker = new Worker(url);
-  
+
   // 清理URL对象
-  worker.addEventListener('message', () => {
-    URL.revokeObjectURL(url);
-  }, { once: true });
+  worker.addEventListener(
+    "message",
+    () => {
+      URL.revokeObjectURL(url);
+    },
+    { once: true }
+  );
 
   return worker;
 }
@@ -429,24 +438,24 @@ export function executeWorkerTask(worker: Worker, data: any): Promise<any> {
 
     const messageHandler = (e: MessageEvent) => {
       if (e.data.taskId === taskId) {
-        worker.removeEventListener('message', messageHandler);
-        
-        if (e.data.type === 'result') {
+        worker.removeEventListener("message", messageHandler);
+
+        if (e.data.type === "result") {
           resolve(e.data.result);
-        } else if (e.data.type === 'error') {
+        } else if (e.data.type === "error") {
           reject(new Error(e.data.error));
         }
       }
     };
 
-    worker.addEventListener('message', messageHandler);
+    worker.addEventListener("message", messageHandler);
     worker.onerror = (error) => {
-      worker.removeEventListener('message', messageHandler);
+      worker.removeEventListener("message", messageHandler);
       reject(error);
     };
 
     worker.postMessage({
-      type: 'execute',
+      type: "execute",
       taskId,
       data,
     });
