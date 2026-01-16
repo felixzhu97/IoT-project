@@ -1,16 +1,16 @@
-"use client"
+"use client";
 
-import { useEffect, useRef } from "react"
-import * as echarts from "echarts"
+import { useEffect, useRef } from "react";
+import * as echarts from "echarts";
 
 export function TrafficBarChart() {
-  const chartRef = useRef<HTMLDivElement>(null)
-  const chartInstance = useRef<echarts.ECharts | null>(null)
+  const chartRef = useRef<HTMLDivElement>(null);
+  const chartInstance = useRef<echarts.ECharts | null>(null);
 
   useEffect(() => {
-    if (!chartRef.current) return
+    if (!chartRef.current) return;
 
-    chartInstance.current = echarts.init(chartRef.current, "dark")
+    chartInstance.current = echarts.init(chartRef.current, "dark");
 
     const option: echarts.EChartsOption = {
       backgroundColor: "transparent",
@@ -29,7 +29,15 @@ export function TrafficBarChart() {
       },
       xAxis: {
         type: "category",
-        data: ["网关", "传感器A", "传感器B", "摄像头1", "摄像头2", "开关", "控制器"],
+        data: [
+          "网关",
+          "传感器A",
+          "传感器B",
+          "摄像头1",
+          "摄像头2",
+          "开关",
+          "控制器",
+        ],
         axisLine: { lineStyle: { color: "#334155" } },
         axisLabel: { color: "#94a3b8", fontSize: 10, rotate: 30 },
       },
@@ -71,18 +79,18 @@ export function TrafficBarChart() {
           data: [80, 12, 10, 120, 135, 8, 0],
         },
       ],
-    }
+    };
 
-    chartInstance.current.setOption(option)
+    chartInstance.current.setOption(option);
 
-    const handleResize = () => chartInstance.current?.resize()
-    window.addEventListener("resize", handleResize)
+    const handleResize = () => chartInstance.current?.resize();
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener("resize", handleResize)
-      chartInstance.current?.dispose()
-    }
-  }, [])
+      window.removeEventListener("resize", handleResize);
+      chartInstance.current?.dispose();
+    };
+  }, []);
 
-  return <div ref={chartRef} className="w-full h-full min-h-[200px]" />
+  return <div ref={chartRef} className="w-full h-full min-h-[200px]" />;
 }

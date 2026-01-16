@@ -1,21 +1,21 @@
-"use client"
+"use client";
 
-import { Card, CardContent, CardHeader, CardTitle, Badge } from "@iot/ui"
-import { Wifi, Thermometer, Camera, Zap, Clock, Signal } from "lucide-react"
+import { Card, CardContent, CardHeader, CardTitle, Badge } from "@iot/ui";
+import { Wifi, Thermometer, Camera, Zap, Clock, Signal } from "lucide-react";
 
 interface DevicePanelProps {
-  selectedDevice: string | null
+  selectedDevice: string | null;
 }
 
 const deviceDetails: Record<
   string,
   {
-    name: string
-    type: string
-    status: string
-    ip: string
-    lastSeen: string
-    metrics: { label: string; value: string }[]
+    name: string;
+    type: string;
+    status: string;
+    ip: string;
+    lastSeen: string;
+    metrics: { label: string; value: string }[];
   }
 > = {
   "hub-001": {
@@ -114,51 +114,51 @@ const deviceDetails: Record<
       { label: "错误", value: "连接超时" },
     ],
   },
-}
+};
 
 const getStatusColor = (status: string) => {
   switch (status) {
     case "online":
-      return "bg-chart-3 text-chart-3"
+      return "bg-chart-3 text-chart-3";
     case "warning":
-      return "bg-accent text-accent"
+      return "bg-accent text-accent";
     case "offline":
-      return "bg-destructive text-destructive"
+      return "bg-destructive text-destructive";
     default:
-      return "bg-muted text-muted-foreground"
+      return "bg-muted text-muted-foreground";
   }
-}
+};
 
 const getStatusText = (status: string) => {
   switch (status) {
     case "online":
-      return "在线"
+      return "在线";
     case "warning":
-      return "警告"
+      return "警告";
     case "offline":
-      return "离线"
+      return "离线";
     default:
-      return "未知"
+      return "未知";
   }
-}
+};
 
 const getIcon = (type: string) => {
   switch (type) {
     case "网关设备":
-      return Wifi
+      return Wifi;
     case "环境传感器":
-      return Thermometer
+      return Thermometer;
     case "视频设备":
-      return Camera
+      return Camera;
     case "执行器":
-      return Zap
+      return Zap;
     default:
-      return Signal
+      return Signal;
   }
-}
+};
 
 export function DevicePanel({ selectedDevice }: DevicePanelProps) {
-  const device = selectedDevice ? deviceDetails[selectedDevice] : null
+  const device = selectedDevice ? deviceDetails[selectedDevice] : null;
 
   if (!device) {
     return (
@@ -173,10 +173,10 @@ export function DevicePanel({ selectedDevice }: DevicePanelProps) {
           </CardContent>
         </Card>
       </div>
-    )
+    );
   }
 
-  const Icon = getIcon(device.type)
+  const Icon = getIcon(device.type);
 
   return (
     <div className="flex-1 p-4 overflow-auto">
@@ -188,11 +188,16 @@ export function DevicePanel({ selectedDevice }: DevicePanelProps) {
                 <Icon className="w-5 h-5 text-primary" />
               </div>
               <div>
-                <CardTitle className="text-base text-card-foreground">{device.name}</CardTitle>
+                <CardTitle className="text-base text-card-foreground">
+                  {device.name}
+                </CardTitle>
                 <p className="text-xs text-muted-foreground">{device.type}</p>
               </div>
             </div>
-            <Badge variant="outline" className={`${getStatusColor(device.status)} border-current`}>
+            <Badge
+              variant="outline"
+              className={`${getStatusColor(device.status)} border-current`}
+            >
               {getStatusText(device.status)}
             </Badge>
           </div>
@@ -201,7 +206,9 @@ export function DevicePanel({ selectedDevice }: DevicePanelProps) {
           <div className="space-y-2">
             <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">IP 地址</span>
-              <span className="font-mono text-card-foreground">{device.ip}</span>
+              <span className="font-mono text-card-foreground">
+                {device.ip}
+              </span>
             </div>
             <div className="flex justify-between text-sm">
               <span className="text-muted-foreground flex items-center gap-1">
@@ -215,9 +222,16 @@ export function DevicePanel({ selectedDevice }: DevicePanelProps) {
             <p className="text-xs text-muted-foreground mb-3">设备指标</p>
             <div className="space-y-3">
               {device.metrics.map((metric) => (
-                <div key={metric.label} className="flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">{metric.label}</span>
-                  <span className="text-sm font-semibold text-card-foreground">{metric.value}</span>
+                <div
+                  key={metric.label}
+                  className="flex justify-between items-center"
+                >
+                  <span className="text-sm text-muted-foreground">
+                    {metric.label}
+                  </span>
+                  <span className="text-sm font-semibold text-card-foreground">
+                    {metric.value}
+                  </span>
                 </div>
               ))}
             </div>
@@ -225,5 +239,5 @@ export function DevicePanel({ selectedDevice }: DevicePanelProps) {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

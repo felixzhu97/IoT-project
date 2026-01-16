@@ -1,22 +1,22 @@
-"use client"
+"use client";
 
-import { useEffect, useRef } from "react"
-import * as echarts from "echarts"
+import { useEffect, useRef } from "react";
+import * as echarts from "echarts";
 
 interface DeviceGaugeProps {
-  value: number
-  title: string
-  color: string
+  value: number;
+  title: string;
+  color: string;
 }
 
 export function DeviceGauge({ value, title, color }: DeviceGaugeProps) {
-  const chartRef = useRef<HTMLDivElement>(null)
-  const chartInstance = useRef<echarts.ECharts | null>(null)
+  const chartRef = useRef<HTMLDivElement>(null);
+  const chartInstance = useRef<echarts.ECharts | null>(null);
 
   useEffect(() => {
-    if (!chartRef.current) return
+    if (!chartRef.current) return;
 
-    chartInstance.current = echarts.init(chartRef.current, "dark")
+    chartInstance.current = echarts.init(chartRef.current, "dark");
 
     const option: echarts.EChartsOption = {
       backgroundColor: "transparent",
@@ -75,18 +75,18 @@ export function DeviceGauge({ value, title, color }: DeviceGaugeProps) {
           data: [{ value, name: title }],
         },
       ],
-    }
+    };
 
-    chartInstance.current.setOption(option)
+    chartInstance.current.setOption(option);
 
-    const handleResize = () => chartInstance.current?.resize()
-    window.addEventListener("resize", handleResize)
+    const handleResize = () => chartInstance.current?.resize();
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener("resize", handleResize)
-      chartInstance.current?.dispose()
-    }
-  }, [value, title, color])
+      window.removeEventListener("resize", handleResize);
+      chartInstance.current?.dispose();
+    };
+  }, [value, title, color]);
 
-  return <div ref={chartRef} className="w-full h-full min-h-[150px]" />
+  return <div ref={chartRef} className="w-full h-full min-h-[150px]" />;
 }

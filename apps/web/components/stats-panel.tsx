@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import { Card, CardContent } from "@iot/ui"
-import { Activity, Zap, Database, AlertTriangle } from "lucide-react"
+import { Card, CardContent } from "@iot/ui";
+import { Activity, Zap, Database, AlertTriangle } from "lucide-react";
 
 const stats = [
   {
@@ -32,7 +32,7 @@ const stats = [
     icon: AlertTriangle,
     color: "text-destructive",
   },
-]
+];
 
 export function StatsPanel() {
   return (
@@ -44,14 +44,18 @@ export function StatsPanel() {
             <CardContent className="p-3">
               <div className="flex items-center justify-between mb-2">
                 <stat.icon className={`w-4 h-4 ${stat.color}`} />
-                <span className="text-xs text-muted-foreground">{stat.change}</span>
+                <span className="text-xs text-muted-foreground">
+                  {stat.change}
+                </span>
               </div>
-              <p className="text-lg font-bold text-card-foreground">{stat.value}</p>
+              <p className="text-lg font-bold text-card-foreground">
+                {stat.value}
+              </p>
               <p className="text-xs text-muted-foreground">{stat.title}</p>
             </CardContent>
           </Card>
         ))}
       </div>
     </div>
-  )
+  );
 }

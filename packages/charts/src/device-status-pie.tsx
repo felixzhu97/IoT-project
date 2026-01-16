@@ -1,16 +1,16 @@
-"use client"
+"use client";
 
-import { useEffect, useRef } from "react"
-import * as echarts from "echarts"
+import { useEffect, useRef } from "react";
+import * as echarts from "echarts";
 
 export function DeviceStatusPie() {
-  const chartRef = useRef<HTMLDivElement>(null)
-  const chartInstance = useRef<echarts.ECharts | null>(null)
+  const chartRef = useRef<HTMLDivElement>(null);
+  const chartInstance = useRef<echarts.ECharts | null>(null);
 
   useEffect(() => {
-    if (!chartRef.current) return
+    if (!chartRef.current) return;
 
-    chartInstance.current = echarts.init(chartRef.current, "dark")
+    chartInstance.current = echarts.init(chartRef.current, "dark");
 
     const option: echarts.EChartsOption = {
       backgroundColor: "transparent",
@@ -57,18 +57,18 @@ export function DeviceStatusPie() {
           ],
         },
       ],
-    }
+    };
 
-    chartInstance.current.setOption(option)
+    chartInstance.current.setOption(option);
 
-    const handleResize = () => chartInstance.current?.resize()
-    window.addEventListener("resize", handleResize)
+    const handleResize = () => chartInstance.current?.resize();
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener("resize", handleResize)
-      chartInstance.current?.dispose()
-    }
-  }, [])
+      window.removeEventListener("resize", handleResize);
+      chartInstance.current?.dispose();
+    };
+  }, []);
 
-  return <div ref={chartRef} className="w-full h-full min-h-[180px]" />
+  return <div ref={chartRef} className="w-full h-full min-h-[180px]" />;
 }

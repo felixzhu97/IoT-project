@@ -1,25 +1,31 @@
-"use client"
+"use client";
 
-import { useEffect, useRef } from "react"
-import * as echarts from "echarts"
+import { useEffect, useRef } from "react";
+import * as echarts from "echarts";
 
 export function RealtimeChart() {
-  const chartRef = useRef<HTMLDivElement>(null)
-  const chartInstance = useRef<echarts.ECharts | null>(null)
+  const chartRef = useRef<HTMLDivElement>(null);
+  const chartInstance = useRef<echarts.ECharts | null>(null);
 
   useEffect(() => {
-    if (!chartRef.current) return
+    if (!chartRef.current) return;
 
-    chartInstance.current = echarts.init(chartRef.current, "dark")
+    chartInstance.current = echarts.init(chartRef.current, "dark");
 
-    const data: number[] = []
-    const xAxisData: string[] = []
-    const now = Date.now()
+    const data: number[] = [];
+    const xAxisData: string[] = [];
+    const now = Date.now();
 
     for (let i = 0; i < 60; i++) {
-      const time = new Date(now - (59 - i) * 1000)
-      xAxisData.push(time.toLocaleTimeString("zh-CN", { hour: "2-digit", minute: "2-digit", second: "2-digit" }))
-      data.push(Math.random() * 100 + 50)
+      const time = new Date(now - (59 - i) * 1000);
+      xAxisData.push(
+        time.toLocaleTimeString("zh-CN", {
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        })
+      );
+      data.push(Math.random() * 100 + 50);
     }
 
     const option: echarts.EChartsOption = {
@@ -71,33 +77,39 @@ export function RealtimeChart() {
           },
         },
       ],
-    }
+    };
 
-    chartInstance.current.setOption(option)
+    chartInstance.current.setOption(option);
 
     // 实时更新数据
     const interval = setInterval(() => {
-      const now = new Date()
-      xAxisData.shift()
-      xAxisData.push(now.toLocaleTimeString("zh-CN", { hour: "2-digit", minute: "2-digit", second: "2-digit" }))
-      data.shift()
-      data.push(Math.random() * 100 + 50)
+      const now = new Date();
+      xAxisData.shift();
+      xAxisData.push(
+        now.toLocaleTimeString("zh-CN", {
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        })
+      );
+      data.shift();
+      data.push(Math.random() * 100 + 50);
 
       chartInstance.current?.setOption({
         xAxis: { data: xAxisData },
         series: [{ data: data }],
-      })
-    }, 1000)
+      });
+    }, 1000);
 
-    const handleResize = () => chartInstance.current?.resize()
-    window.addEventListener("resize", handleResize)
+    const handleResize = () => chartInstance.current?.resize();
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      clearInterval(interval)
-      window.removeEventListener("resize", handleResize)
-      chartInstance.current?.dispose()
-    }
-  }, [])
+      clearInterval(interval);
+      window.removeEventListener("resize", handleResize);
+      chartInstance.current?.dispose();
+    };
+  }, []);
 
-  return <div ref={chartRef} className="w-full h-full min-h-[200px]" />
+  return <div ref={chartRef} className="w-full h-full min-h-[200px]" />;
 }

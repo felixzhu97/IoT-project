@@ -1,7 +1,16 @@
-"use client"
+"use client";
 
-import { LayoutDashboard, Cpu, Activity, Settings, Bell, Network, Shield, BarChart3 } from "lucide-react"
-import { cn } from "@iot/utils"
+import {
+  LayoutDashboard,
+  Cpu,
+  Activity,
+  Settings,
+  Bell,
+  Network,
+  Shield,
+  BarChart3,
+} from "lucide-react";
+import { cn } from "@iot/utils";
 
 const navItems = [
   { icon: LayoutDashboard, label: "仪表盘", active: true },
@@ -12,7 +21,7 @@ const navItems = [
   { icon: Shield, label: "安全中心", active: false },
   { icon: Bell, label: "告警中心", active: false },
   { icon: Settings, label: "系统设置", active: false },
-]
+];
 
 export function Sidebar() {
   return (
@@ -33,7 +42,7 @@ export function Sidebar() {
               "w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors",
               item.active
                 ? "bg-primary/15 text-primary"
-                : "text-muted-foreground hover:bg-secondary hover:text-foreground",
+                : "text-muted-foreground hover:bg-secondary hover:text-foreground"
             )}
           >
             <item.icon className="w-5 h-5" />
@@ -46,10 +55,12 @@ export function Sidebar() {
           <p className="text-xs text-muted-foreground mb-2">系统状态</p>
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-chart-3" />
-            <span className="text-sm font-medium text-foreground">运行正常</span>
+            <span className="text-sm font-medium text-foreground">
+              运行正常
+            </span>
           </div>
         </div>
       </div>
     </aside>
-  )
+  );
 }

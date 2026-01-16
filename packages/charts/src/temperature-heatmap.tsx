@@ -1,24 +1,24 @@
-"use client"
+"use client";
 
-import { useEffect, useRef } from "react"
-import * as echarts from "echarts"
+import { useEffect, useRef } from "react";
+import * as echarts from "echarts";
 
 export function TemperatureHeatmap() {
-  const chartRef = useRef<HTMLDivElement>(null)
-  const chartInstance = useRef<echarts.ECharts | null>(null)
+  const chartRef = useRef<HTMLDivElement>(null);
+  const chartInstance = useRef<echarts.ECharts | null>(null);
 
   useEffect(() => {
-    if (!chartRef.current) return
+    if (!chartRef.current) return;
 
-    chartInstance.current = echarts.init(chartRef.current, "dark")
+    chartInstance.current = echarts.init(chartRef.current, "dark");
 
-    const hours = ["00:00", "04:00", "08:00", "12:00", "16:00", "20:00"]
-    const sensors = ["传感器A", "传感器B", "传感器C"]
+    const hours = ["00:00", "04:00", "08:00", "12:00", "16:00", "20:00"];
+    const sensors = ["传感器A", "传感器B", "传感器C"];
 
-    const data: [number, number, number][] = []
+    const data: [number, number, number][] = [];
     for (let i = 0; i < sensors.length; i++) {
       for (let j = 0; j < hours.length; j++) {
-        data.push([j, i, Math.round(20 + Math.random() * 15)])
+        data.push([j, i, Math.round(20 + Math.random() * 15)]);
       }
     }
 
@@ -29,7 +29,10 @@ export function TemperatureHeatmap() {
         backgroundColor: "rgba(15, 23, 42, 0.9)",
         borderColor: "#22d3ee",
         textStyle: { color: "#e2e8f0" },
-        formatter: (params: any) => `${sensors[params.value[1]]}<br/>${hours[params.value[0]]}: ${params.value[2]}°C`,
+        formatter: (params: any) =>
+          `${sensors[params.value[1]]}<br/>${hours[params.value[0]]}: ${
+            params.value[2]
+          }°C`,
       },
       grid: {
         top: 10,
@@ -87,18 +90,18 @@ export function TemperatureHeatmap() {
           },
         },
       ],
-    }
+    };
 
-    chartInstance.current.setOption(option)
+    chartInstance.current.setOption(option);
 
-    const handleResize = () => chartInstance.current?.resize()
-    window.addEventListener("resize", handleResize)
+    const handleResize = () => chartInstance.current?.resize();
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener("resize", handleResize)
-      chartInstance.current?.dispose()
-    }
-  }, [])
+      window.removeEventListener("resize", handleResize);
+      chartInstance.current?.dispose();
+    };
+  }, []);
 
-  return <div ref={chartRef} className="w-full h-full min-h-[160px]" />
+  return <div ref={chartRef} className="w-full h-full min-h-[160px]" />;
 }

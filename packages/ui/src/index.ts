@@ -1,4 +1,4 @@
-export { Badge, badgeVariants } from './badge'
+export { Badge, badgeVariants } from "./badge";
 export {
   Card,
   CardHeader,
@@ -7,5 +7,5 @@ export {
   CardAction,
   CardDescription,
   CardContent,
-} from './card'
-export { Tabs, TabsList, TabsTrigger, TabsContent } from './tabs'
+} from "./card";
+export { Tabs, TabsList, TabsTrigger, TabsContent } from "./tabs";
