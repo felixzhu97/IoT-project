@@ -2,8 +2,6 @@
 
 一个基于 Next.js 的现代化物联网设备监控和管理平台，采用 Monorepo 架构构建。
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/felixzhu97s-projects/v0-untitled-project)
-
 ## 📋 项目概述
 
 IoT Hub 是一个功能强大的物联网设备监控平台，提供实时数据可视化、3D 设备网络展示、设备状态监控等功能。项目采用 Monorepo 架构，使用 pnpm workspaces 管理多个包和应用。
@@ -171,13 +169,30 @@ import { cn } from "@iot/utils";
 
 ## 🌐 部署
 
-项目已配置为自动部署到 Vercel。每次推送到主分支都会触发自动部署。
+项目已配置为自动部署到 Vercel。由于项目采用 monorepo 结构，需要在 Vercel 项目设置中配置根目录。
+
+### 首次部署配置
+
+**重要**: 由于 Next.js 应用位于 `apps/web` 目录，需要在 Vercel 控制台设置根目录：
+
+1. 登录 [Vercel Dashboard](https://vercel.com/dashboard)
+2. 选择项目，进入 **Settings** → **General**
+3. 找到 **Root Directory**，设置为 `apps/web`
+4. 保存设置
+
+### 自动部署
+
+配置完成后，每次推送到主分支都会自动触发部署。
 
 ### 手动部署
 
 1. 确保所有更改已提交
 2. 推送到 GitHub
 3. Vercel 会自动检测并部署
+
+### 详细部署说明
+
+查看 [部署文档](docs/DEPLOYMENT.md) 了解完整的部署指南和常见问题解决方案。
 
 ## 📄 许可证
 
