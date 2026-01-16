@@ -1,6 +1,6 @@
 "use client"
 
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent } from "@iot/ui"
 import { Activity, Zap, Database, AlertTriangle } from "lucide-react"
 
 const stats = [

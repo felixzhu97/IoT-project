@@ -1,7 +1,7 @@
 "use client"
 
 import { LayoutDashboard, Cpu, Activity, Settings, Bell, Network, Shield, BarChart3 } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { cn } from "@iot/utils"
 
 const navItems = [
   { icon: LayoutDashboard, label: "仪表盘", active: true },

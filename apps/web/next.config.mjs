@@ -6,7 +6,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
- 
+  transpilePackages: ['@iot/ui', '@iot/charts', '@iot/utils'],
 }
 
 export default nextConfig

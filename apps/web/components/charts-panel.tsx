@@ -1,11 +1,7 @@
 "use client"
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { RealtimeChart } from "./charts/realtime-chart"
-import { DeviceStatusPie } from "./charts/device-status-pie"
-import { TrafficBarChart } from "./charts/traffic-bar-chart"
-import { TemperatureHeatmap } from "./charts/temperature-heatmap"
-import { DeviceGauge } from "./charts/device-gauge"
+import { Card, CardContent, CardHeader, CardTitle } from "@iot/ui"
+import { RealtimeChart, DeviceStatusPie, TrafficBarChart, TemperatureHeatmap, DeviceGauge } from "@iot/charts"
 
 export function ChartsPanel() {
   return (

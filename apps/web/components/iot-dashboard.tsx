@@ -5,7 +5,7 @@ import { Sidebar } from "./sidebar"
 import { Scene3D } from "./scene-3d"
 import { DevicePanel } from "./device-panel"
 import { ChartsPanel } from "./charts-panel"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@iot/ui"
 import { Network, BarChart3 } from "lucide-react"
 
 export function IoTDashboard() {

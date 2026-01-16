@@ -1,4 +1,4 @@
-import { IoTDashboard } from "@/components/iot-dashboard"
+import { IoTDashboard } from "../components/iot-dashboard"
 
 export default function Home() {
   return (

@@ -6,11 +6,22 @@ settings:
 
 importers:
 
-  .:
+  .: {}
+
+  apps/web:
     dependencies:
       '@hookform/resolvers':
         specifier: ^3.10.0
         version: 3.10.0(react-hook-form@7.60.0(react@19.2.0))
+      '@iot/charts':
+        specifier: workspace:*
+        version: link:../../packages/charts
+      '@iot/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
+      '@iot/utils':
+        specifier: workspace:*
+        version: link:../../packages/utils
       '@radix-ui/react-accordion':
         specifier: 1.2.2
         version: 1.2.2(@types/react-dom@19.0.0)(@types/react@19.0.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -207,6 +218,62 @@ importers:
       tw-animate-css:
         specifier: 1.3.3
         version: 1.3.3
+      typescript:
+        specifier: ^5
+        version: 5.0.2
+
+  packages/charts:
+    dependencies:
+      echarts:
+        specifier: 6.0.0
+        version: 6.0.0
+      react:
+        specifier: 19.2.0
+        version: 19.2.0
+    devDependencies:
+      '@types/react':
+        specifier: ^19
+        version: 19.0.0
+      typescript:
+        specifier: ^5
+        version: 5.0.2
+
+  packages/config: {}
+
+  packages/ui:
+    dependencies:
+      '@iot/utils':
+        specifier: workspace:*
+        version: link:../utils
+      '@radix-ui/react-slot':
+        specifier: 1.1.1
+        version: 1.1.1(@types/react@19.0.0)(react@19.2.0)
+      '@radix-ui/react-tabs':
+        specifier: 1.1.2
+        version: 1.1.2(@types/react-dom@19.0.0)(@types/react@19.0.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      class-variance-authority:
+        specifier: ^0.7.1
+        version: 0.7.1
+      react:
+        specifier: 19.2.0
+        version: 19.2.0
+    devDependencies:
+      '@types/react':
+        specifier: ^19
+        version: 19.0.0
+      typescript:
+        specifier: ^5
+        version: 5.0.2
+
+  packages/utils:
+    dependencies:
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
+      tailwind-merge:
+        specifier: ^3.3.1
+        version: 3.3.1
+    devDependencies:
       typescript:
         specifier: ^5
         version: 5.0.2

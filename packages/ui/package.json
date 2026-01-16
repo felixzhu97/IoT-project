@@ -1,0 +1,39 @@
+{
+  "name": "@iot/ui",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    },
+    "./badge": {
+      "types": "./src/badge.tsx",
+      "default": "./src/badge.tsx"
+    },
+    "./card": {
+      "types": "./src/card.tsx",
+      "default": "./src/card.tsx"
+    },
+    "./tabs": {
+      "types": "./src/tabs.tsx",
+      "default": "./src/tabs.tsx"
+    }
+  },
+  "dependencies": {
+    "@iot/utils": "workspace:*",
+    "@radix-ui/react-slot": "1.1.1",
+    "@radix-ui/react-tabs": "1.1.2",
+    "class-variance-authority": "^0.7.1",
+    "react": "19.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19",
+    "typescript": "^5"
+  },
+  "peerDependencies": {
+    "react": "^19.2.0"
+  }
+}

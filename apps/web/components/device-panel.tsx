@@ -1,7 +1,6 @@
 "use client"
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+import { Card, CardContent, CardHeader, CardTitle, Badge } from "@iot/ui"
 import { Wifi, Thermometer, Camera, Zap, Clock, Signal } from "lucide-react"
 
 interface DevicePanelProps {

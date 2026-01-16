@@ -1,0 +1,44 @@
+{
+  "name": "@iot/charts",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    },
+    "./device-gauge": {
+      "types": "./src/device-gauge.tsx",
+      "default": "./src/device-gauge.tsx"
+    },
+    "./device-status-pie": {
+      "types": "./src/device-status-pie.tsx",
+      "default": "./src/device-status-pie.tsx"
+    },
+    "./realtime-chart": {
+      "types": "./src/realtime-chart.tsx",
+      "default": "./src/realtime-chart.tsx"
+    },
+    "./temperature-heatmap": {
+      "types": "./src/temperature-heatmap.tsx",
+      "default": "./src/temperature-heatmap.tsx"
+    },
+    "./traffic-bar-chart": {
+      "types": "./src/traffic-bar-chart.tsx",
+      "default": "./src/traffic-bar-chart.tsx"
+    }
+  },
+  "dependencies": {
+    "echarts": "6.0.0",
+    "react": "19.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19",
+    "typescript": "^5"
+  },
+  "peerDependencies": {
+    "react": "^19.2.0"
+  }
+}
