@@ -18,6 +18,7 @@ package "UI组件库 (UI Component Library)" {
   [@iot/ui] as UIComponents
   [@iot/charts] as ChartComponents
   [@iot/utils] as Utils
+  [@iot/three-utils] as ThreeUtils <<3D工具库>>
 }
 
 package "业务组件 (Business Components)" {
@@ -53,6 +54,7 @@ Dashboard --> ChartComponents
 DeviceManagementUI --> UIComponents
 DataAnalysisUI --> ChartComponents
 Scene3D --> UIComponents
+Scene3D --> ThreeUtils
 
 ' 业务组件关系
 IoTDashboard --> DevicePanel
@@ -79,6 +81,7 @@ AlertService --> AlertDataAccess
 ' 工具库使用
 UIComponents --> Utils
 ChartComponents --> Utils
+ThreeUtils --> Utils
 
 note right of WebApp
   Next.js 16
@@ -93,6 +96,15 @@ end note
 note right of ChartComponents
   ECharts
   图表组件
+end note
+
+note right of ThreeUtils
+  Three.js
+  工具函数库
+  几何体、材质、
+  动画、相机、
+  场景、特效、
+  加载器、交互
 end note
 
 @enduml

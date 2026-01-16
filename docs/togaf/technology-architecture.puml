@@ -18,6 +18,7 @@ package "应用层 (Application Layer)" {
     [packages/ui] as UIPackage
     [packages/charts] as ChartsPackage
     [packages/utils] as UtilsPackage
+    [packages/three-utils] as ThreeUtilsPackage <<3D工具库>>
   }
   
   [TypeScript] as TypeScript
@@ -57,12 +58,14 @@ NextJSApp --> WebApp
 WebApp --> UIPackage
 WebApp --> ChartsPackage
 WebApp --> UtilsPackage
+WebApp --> ThreeUtilsPackage
 WebApp --> TypeScript
 WebApp --> PnpmWorkspaces
 
 ' 框架层关系
 WebApp --> ReactThreeFiber
 ReactThreeFiber --> ThreeJS
+ThreeUtilsPackage --> ThreeJS
 WebApp --> ECharts
 UIPackage --> RadixUI
 
@@ -90,6 +93,14 @@ end note
 note right of ReactThreeFiber
   3D场景
   渲染引擎
+end note
+
+note right of ThreeUtilsPackage
+  Three.js工具库
+  几何体、材质、
+  动画、相机、
+  场景、特效、
+  加载器、交互
 end note
 
 note right of Vercel

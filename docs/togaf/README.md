@@ -21,7 +21,7 @@
 展示了应用组件的层次结构和依赖关系：
 
 - **前端应用层**: Web 应用、仪表盘、设备管理界面、数据分析界面、3D 可视化
-- **UI 组件库**: @iot/ui、@iot/charts、@iot/utils
+- **UI 组件库**: @iot/ui、@iot/charts、@iot/utils、@iot/three-utils
 - **业务组件**: IoT 仪表盘、设备面板、图表面板等
 - **应用服务层**: 设备服务、数据服务、告警服务、用户服务
 - **数据访问层**: 设备数据访问、指标数据访问、告警数据访问
@@ -31,7 +31,7 @@
 描述了技术栈的层次结构：
 
 - **表示层**: 浏览器、Next.js 应用、Tailwind CSS
-- **应用层**: Monorepo 结构（apps/web、packages/\*）、TypeScript、pnpm Workspaces
+- **应用层**: Monorepo 结构（apps/web、packages/ui、packages/charts、packages/utils、packages/three-utils）、TypeScript、pnpm Workspaces
 - **框架层**: React Three Fiber、Three.js、ECharts、Radix UI
 - **构建工具层**: Next.js Build、PostCSS、TypeScript Compiler
 - **运行时层**: Node.js、Vercel Runtime

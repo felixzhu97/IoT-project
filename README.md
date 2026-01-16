@@ -10,7 +10,7 @@ IoT Hub 是一个功能强大的物联网设备监控平台，提供实时数据
 
 本项目采用 Monorepo 架构，使用 pnpm workspaces 进行包管理：
 
-```
+```text
 IoT-project/
 ├── apps/
 │   └── web/                    # Next.js 主应用
@@ -41,6 +41,20 @@ IoT-project/
 │   ├── utils/                   # 工具函数库 (@iot/utils)
 │   │   ├── src/
 │   │   │   └── index.ts
+│   │   └── package.json
+│   │
+│   ├── three-utils/             # Three.js 工具类库 (@iot/three-utils)
+│   │   ├── src/
+│   │   │   ├── index.ts
+│   │   │   ├── geometry.ts      # 几何体工具
+│   │   │   ├── material.ts      # 材质工具
+│   │   │   ├── animation.ts     # 动画工具
+│   │   │   ├── camera.ts        # 相机工具
+│   │   │   ├── scene.ts         # 场景工具
+│   │   │   ├── math.ts          # 数学工具
+│   │   │   ├── effects.ts       # 特效工具
+│   │   │   ├── loader.ts        # 加载器工具
+│   │   │   └── interaction.ts   # 交互工具
 │   │   └── package.json
 │   │
 │   └── config/                  # 共享配置
@@ -88,6 +102,79 @@ UI 组件库，包含基于 Radix UI 的可复用组件：
 工具函数库：
 
 - `cn()` - 类名合并工具（基于 clsx 和 tailwind-merge）
+
+### @iot/three-utils
+
+Three.js 工具类库，提供完整的 3D 场景开发工具函数：
+
+#### 几何体工具 (`geometry.ts`)
+
+- `createDeviceGeometry()` - 创建设备几何体（hub、sensor、camera、actuator）
+- `createConnectionLine()` - 创建连接线几何体
+- `createGridFloor()` - 创建网格地板几何体
+- 其他基础几何体创建函数
+
+#### 材质工具 (`material.ts`)
+
+- `getStatusColor()` - 根据设备状态获取颜色
+- `createDeviceMaterial()` - 创建设备材质（支持发光、金属感）
+- `createLineMaterial()` - 创建连接线材质
+- `createGlowMaterial()` - 创建光晕材质
+
+#### 动画工具 (`animation.ts`)
+
+- `easeInOutQuad()` - 缓动函数
+- `lerp()` - 线性插值
+- `createFloatAnimation()` - 创建浮动动画
+- `createRotationAnimation()` - 创建旋转动画
+- `animateValue()` - 通用值动画函数
+
+#### 相机工具 (`camera.ts`)
+
+- `createDefaultCamera()` - 创建默认相机配置
+- `smoothCameraMove()` - 平滑相机移动
+- `focusOnObject()` - 聚焦到对象
+- `getCameraPreset()` - 获取相机预设（top、front、side、iso）
+
+#### 场景工具 (`scene.ts`)
+
+- `createDefaultLights()` - 创建默认灯光配置
+- `createAmbientLight()` - 创建环境光
+- `createPointLights()` - 创建点光源
+- `setupEnvironment()` - 设置场景环境
+
+#### 数学工具 (`math.ts`)
+
+- `distance3D()` - 计算三维距离
+- `normalizeVector()` - 归一化向量
+- `sphericalToCartesian()` - 球坐标转笛卡尔坐标
+- `cartesianToSpherical()` - 笛卡尔坐标转球坐标
+- `degToRad()` / `radToDeg()` - 角度转换
+
+#### 特效工具 (`effects.ts`)
+
+- `createParticleSystem()` - 创建粒子系统
+- `createGlowEffect()` - 创建发光效果
+- `createTrailEffect()` - 创建轨迹效果
+- `createPulseEffect()` - 创建脉冲效果
+- `createBeamEffect()` - 创建光束效果
+
+#### 加载器工具 (`loader.ts`)
+
+- `loadTexture()` - 加载纹理图片
+- `loadTextureAsync()` - 异步加载纹理
+- `loadModel()` - 加载 3D 模型（GLTF/GLB）
+- `loadModelWithProgress()` - 带进度回调的模型加载
+- `createLoadingManager()` - 创建加载管理器
+
+#### 交互工具 (`interaction.ts`)
+
+- `createRaycaster()` - 创建射线检测器
+- `raycastFromMouse()` - 从鼠标位置进行射线检测
+- `setupObjectPicking()` - 设置对象拾取功能
+- `createDragController()` - 创建拖拽控制器
+- `highlightObject()` - 高亮显示对象
+- `createInteractionManager()` - 创建交互管理器
 
 ## 🚀 快速开始
 
@@ -161,6 +248,18 @@ import { DeviceGauge } from "@iot/charts";
 
 // 从 @iot/utils 导入工具函数
 import { cn } from "@iot/utils";
+
+// 从 @iot/three-utils 导入 Three.js 工具
+import {
+  createDeviceGeometry,
+  getStatusColor,
+  createDeviceMaterial,
+  createConnectionLine,
+  createDefaultLights,
+  createRaycaster,
+  setupObjectPicking,
+  highlightObject,
+} from "@iot/three-utils";
 ```
 
 ### TypeScript 项目引用

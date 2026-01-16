@@ -16,6 +16,7 @@ package "应用架构层 (Application Architecture)" {
   [Web前端应用] as AppWebFrontend
   [UI组件库] as AppUIComponents
   [图表组件库] as AppChartComponents
+  [3D工具库] as AppThreeUtils
   [业务组件] as AppBusinessComponents
 }
 
@@ -42,6 +43,7 @@ BizDataAnalysis --> AppWebFrontend
 ' 应用架构内部关系
 AppWebFrontend --> AppUIComponents
 AppWebFrontend --> AppChartComponents
+AppWebFrontend --> AppThreeUtils
 AppWebFrontend --> AppBusinessComponents
 
 ' 应用架构到数据架构
@@ -74,7 +76,15 @@ end note
 note right of AppWebFrontend
   应用组件：
   仪表盘、设备面板、
-  图表面板
+  图表面板、3D可视化
+end note
+
+note right of AppThreeUtils
+  3D工具库：
+  几何体、材质、
+  动画、相机、
+  场景、特效、
+  加载器、交互
 end note
 
 note right of DataCollection
