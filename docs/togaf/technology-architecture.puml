@@ -1,0 +1,100 @@
+@startuml TOGAF_Technology_Architecture
+!theme plain
+skinparam componentStyle rectangle
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontSize 12
+
+title TOGAF 技术架构图 - IoT Hub 技术栈架构
+
+package "表示层 (Presentation Layer)" {
+  [浏览器] as Browser
+  [Next.js应用] as NextJSApp <<React 19>>
+  [Tailwind CSS] as TailwindCSS
+}
+
+package "应用层 (Application Layer)" {
+  package "Monorepo结构" {
+    [apps/web] as WebApp
+    [packages/ui] as UIPackage
+    [packages/charts] as ChartsPackage
+    [packages/utils] as UtilsPackage
+  }
+  
+  [TypeScript] as TypeScript
+  [pnpm Workspaces] as PnpmWorkspaces
+}
+
+package "框架层 (Framework Layer)" {
+  [React Three Fiber] as ReactThreeFiber <<3D渲染>>
+  [Three.js] as ThreeJS
+  [ECharts] as ECharts <<图表库>>
+  [Radix UI] as RadixUI <<UI组件>>
+}
+
+package "构建工具层 (Build Tools Layer)" {
+  [Next.js Build] as NextJSBuild
+  [PostCSS] as PostCSS
+  [TypeScript Compiler] as TSCompiler
+}
+
+package "运行时层 (Runtime Layer)" {
+  [Node.js] as NodeJS
+  [Vercel Runtime] as VercelRuntime
+}
+
+package "部署层 (Deployment Layer)" {
+  [Vercel Platform] as Vercel
+  [CDN] as CDN
+  [Edge Functions] as EdgeFunctions
+}
+
+' 表示层关系
+Browser --> NextJSApp
+NextJSApp --> TailwindCSS
+
+' 应用层关系
+NextJSApp --> WebApp
+WebApp --> UIPackage
+WebApp --> ChartsPackage
+WebApp --> UtilsPackage
+WebApp --> TypeScript
+WebApp --> PnpmWorkspaces
+
+' 框架层关系
+WebApp --> ReactThreeFiber
+ReactThreeFiber --> ThreeJS
+WebApp --> ECharts
+UIPackage --> RadixUI
+
+' 构建工具层关系
+NextJSApp --> NextJSBuild
+NextJSBuild --> PostCSS
+NextJSBuild --> TSCompiler
+TSCompiler --> TypeScript
+
+' 运行时层关系
+NextJSBuild --> NodeJS
+NextJSApp --> VercelRuntime
+VercelRuntime --> NodeJS
+
+' 部署层关系
+VercelRuntime --> Vercel
+Vercel --> CDN
+Vercel --> EdgeFunctions
+
+note right of PnpmWorkspaces
+  Monorepo
+  包管理
+end note
+
+note right of ReactThreeFiber
+  3D场景
+  渲染引擎
+end note
+
+note right of Vercel
+  自动部署
+  CI/CD
+end note
+
+@enduml

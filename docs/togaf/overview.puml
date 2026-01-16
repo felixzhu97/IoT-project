@@ -1,0 +1,92 @@
+@startuml TOGAF_Overview
+!theme plain
+skinparam componentStyle rectangle
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontSize 12
+
+title TOGAF 总体架构概览 - IoT Hub 企业架构
+
+package "业务架构层 (Business Architecture)" {
+  [设备管理] as BizDeviceMgmt
+  [实时监控] as BizRealTime
+  [数据分析] as BizDataAnalysis
+}
+
+package "应用架构层 (Application Architecture)" {
+  [Web前端应用] as AppWebFrontend
+  [UI组件库] as AppUIComponents
+  [图表组件库] as AppChartComponents
+  [业务组件] as AppBusinessComponents
+}
+
+package "数据架构层 (Data Architecture)" {
+  [数据采集] as DataCollection
+  [数据处理] as DataProcessing
+  [数据存储] as DataStorage
+  [数据展示] as DataPresentation
+}
+
+package "技术架构层 (Technology Architecture)" {
+  [Next.js框架] as TechNextJS
+  [React生态系统] as TechReact
+  [TypeScript] as TechTypeScript
+  [Monorepo架构] as TechMonorepo
+  [Vercel部署] as TechVercel
+}
+
+' 业务架构到应用架构
+BizDeviceMgmt --> AppWebFrontend
+BizRealTime --> AppWebFrontend
+BizDataAnalysis --> AppWebFrontend
+
+' 应用架构内部关系
+AppWebFrontend --> AppUIComponents
+AppWebFrontend --> AppChartComponents
+AppWebFrontend --> AppBusinessComponents
+
+' 应用架构到数据架构
+AppBusinessComponents --> DataCollection
+AppBusinessComponents --> DataProcessing
+AppBusinessComponents --> DataPresentation
+
+' 数据架构内部关系
+DataCollection --> DataProcessing
+DataProcessing --> DataStorage
+DataStorage --> DataPresentation
+
+' 应用架构到技术架构
+AppWebFrontend --> TechNextJS
+AppUIComponents --> TechReact
+AppChartComponents --> TechReact
+TechNextJS --> TechTypeScript
+TechNextJS --> TechMonorepo
+
+' 技术架构到部署
+TechNextJS --> TechVercel
+TechMonorepo --> TechVercel
+
+note right of BizDeviceMgmt
+  业务能力：
+  设备注册、配置、
+  状态管理
+end note
+
+note right of AppWebFrontend
+  应用组件：
+  仪表盘、设备面板、
+  图表面板
+end note
+
+note right of DataCollection
+  数据能力：
+  实时采集、处理、
+  存储、展示
+end note
+
+note right of TechMonorepo
+  技术能力：
+  pnpm workspaces
+  包管理
+end note
+
+@enduml

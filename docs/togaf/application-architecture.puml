@@ -1,0 +1,98 @@
+@startuml TOGAF_Application_Architecture
+!theme plain
+skinparam componentStyle rectangle
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontSize 12
+
+title TOGAF 应用架构图 - IoT Hub 应用组件架构
+
+package "前端应用层 (Frontend Application Layer)" {
+  [Web应用] as WebApp <<Next.js>>
+  [仪表盘] as Dashboard
+  [设备管理界面] as DeviceManagementUI
+  [数据分析界面] as DataAnalysisUI
+  [3D可视化] as Scene3D
+}
+
+package "UI组件库 (UI Component Library)" {
+  [@iot/ui] as UIComponents
+  [@iot/charts] as ChartComponents
+  [@iot/utils] as Utils
+}
+
+package "业务组件 (Business Components)" {
+  [IoT仪表盘] as IoTDashboard
+  [设备面板] as DevicePanel
+  [图表面板] as ChartsPanel
+  [统计面板] as StatsPanel
+  [侧边栏] as Sidebar
+}
+
+package "应用服务层 (Application Service Layer)" {
+  [设备服务] as DeviceService
+  [数据服务] as DataService
+  [告警服务] as AlertService
+  [用户服务] as UserService
+}
+
+package "数据访问层 (Data Access Layer)" {
+  [设备数据访问] as DeviceDataAccess
+  [指标数据访问] as MetricsDataAccess
+  [告警数据访问] as AlertDataAccess
+}
+
+' 前端应用层关系
+WebApp --> Dashboard
+WebApp --> DeviceManagementUI
+WebApp --> DataAnalysisUI
+WebApp --> Scene3D
+
+' UI组件库关系
+Dashboard --> UIComponents
+Dashboard --> ChartComponents
+DeviceManagementUI --> UIComponents
+DataAnalysisUI --> ChartComponents
+Scene3D --> UIComponents
+
+' 业务组件关系
+IoTDashboard --> DevicePanel
+IoTDashboard --> ChartsPanel
+IoTDashboard --> StatsPanel
+IoTDashboard --> Sidebar
+IoTDashboard --> Scene3D
+
+ChartsPanel --> ChartComponents
+DevicePanel --> UIComponents
+StatsPanel --> UIComponents
+
+' 应用服务层关系
+DeviceManagementUI --> DeviceService
+DataAnalysisUI --> DataService
+Dashboard --> AlertService
+DeviceManagementUI --> UserService
+
+' 数据访问层关系
+DeviceService --> DeviceDataAccess
+DataService --> MetricsDataAccess
+AlertService --> AlertDataAccess
+
+' 工具库使用
+UIComponents --> Utils
+ChartComponents --> Utils
+
+note right of WebApp
+  Next.js 16
+  App Router
+end note
+
+note right of UIComponents
+  Radix UI
+  基础组件
+end note
+
+note right of ChartComponents
+  ECharts
+  图表组件
+end note
+
+@enduml

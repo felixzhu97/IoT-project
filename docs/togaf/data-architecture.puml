@@ -1,0 +1,99 @@
+@startuml TOGAF_Data_Architecture
+!theme plain
+skinparam componentStyle rectangle
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontSize 12
+
+title TOGAF 数据架构图 - IoT Hub 数据流架构
+
+package "数据源层 (Data Source Layer)" {
+  [IoT设备] as IoTDevices
+  [传感器数据] as SensorData
+  [设备状态] as DeviceStatus
+  [网络流量] as NetworkTraffic
+}
+
+package "数据采集层 (Data Collection Layer)" {
+  [数据采集服务] as DataCollectionService
+  [实时数据流] as RealTimeDataStream
+  [批量数据] as BatchData
+}
+
+package "数据处理层 (Data Processing Layer)" {
+  [数据转换] as DataTransformation
+  [数据聚合] as DataAggregation
+  [数据验证] as DataValidation
+}
+
+package "数据存储层 (Data Storage Layer)" {
+  [实时数据缓存] as RealTimeCache
+  [时序数据库] as TimeSeriesDB
+  [设备元数据] as DeviceMetadata
+  [配置数据] as ConfigData
+}
+
+package "数据展示层 (Data Presentation Layer)" {
+  [实时图表] as RealTimeCharts
+  [历史报表] as HistoricalReports
+  [设备仪表盘] as DeviceDashboards
+  [热力图] as Heatmaps
+}
+
+package "数据访问层 (Data Access Layer)" {
+  [REST API] as RESTAPI
+  [WebSocket] as WebSocket
+  [GraphQL] as GraphQL
+}
+
+' 数据源层关系
+IoTDevices --> SensorData
+IoTDevices --> DeviceStatus
+IoTDevices --> NetworkTraffic
+
+' 数据采集层关系
+SensorData --> DataCollectionService
+DeviceStatus --> DataCollectionService
+NetworkTraffic --> DataCollectionService
+DataCollectionService --> RealTimeDataStream
+DataCollectionService --> BatchData
+
+' 数据处理层关系
+RealTimeDataStream --> DataTransformation
+BatchData --> DataAggregation
+DataTransformation --> DataValidation
+DataAggregation --> DataValidation
+
+' 数据存储层关系
+DataTransformation --> RealTimeCache
+DataAggregation --> TimeSeriesDB
+DeviceStatus --> DeviceMetadata
+DataValidation --> ConfigData
+
+' 数据展示层关系
+RealTimeCache --> RealTimeCharts
+TimeSeriesDB --> HistoricalReports
+DeviceMetadata --> DeviceDashboards
+TimeSeriesDB --> Heatmaps
+
+' 数据访问层关系
+RealTimeCharts --> RESTAPI
+HistoricalReports --> RESTAPI
+DeviceDashboards --> WebSocket
+RealTimeCharts --> WebSocket
+
+note right of IoTDevices
+  网关、传感器、
+  摄像头、执行器
+end note
+
+note right of RealTimeCache
+  内存缓存
+  实时数据
+end note
+
+note right of TimeSeriesDB
+  时序数据
+  历史存储
+end note
+
+@enduml

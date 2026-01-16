@@ -1,0 +1,63 @@
+@startuml TOGAF_Business_Architecture
+!theme plain
+skinparam componentStyle rectangle
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontSize 12
+
+title TOGAF 业务架构图 - IoT Hub 智能物联网监控平台
+
+package "业务层 (Business Layer)" {
+  [设备管理] as DeviceManagement
+  [实时监控] as RealTimeMonitoring
+  [数据分析] as DataAnalysis
+  [告警管理] as AlertManagement
+  [系统设置] as SystemSettings
+}
+
+package "业务能力 (Business Capabilities)" {
+  [设备发现与注册] as DeviceDiscovery
+  [设备状态监控] as DeviceStatusMonitoring
+  [数据采集] as DataCollection
+  [数据可视化] as DataVisualization
+  [告警规则配置] as AlertRuleConfig
+  [用户权限管理] as UserPermission
+}
+
+package "业务流程 (Business Processes)" {
+  [设备上线流程] as DeviceOnboarding
+  [数据采集流程] as DataCollectionProcess
+  [告警处理流程] as AlertHandling
+  [数据分析流程] as DataAnalysisProcess
+}
+
+' 业务层关系
+DeviceManagement --> DeviceDiscovery
+DeviceManagement --> DeviceStatusMonitoring
+RealTimeMonitoring --> DataCollection
+RealTimeMonitoring --> DataVisualization
+DataAnalysis --> DataVisualization
+AlertManagement --> AlertRuleConfig
+SystemSettings --> UserPermission
+
+' 业务能力关系
+DeviceDiscovery --> DeviceOnboarding
+DataCollection --> DataCollectionProcess
+AlertRuleConfig --> AlertHandling
+DataVisualization --> DataAnalysisProcess
+
+note right of DeviceManagement
+  负责设备的注册、
+  配置和管理
+end note
+
+note right of RealTimeMonitoring
+  实时监控设备状态
+  和数据流
+end note
+
+note right of DataAnalysis
+  提供历史数据
+  分析和报表
+end note
+
+@enduml
