@@ -1,5 +1,7 @@
 "use client";
 
+import * as React from "react";
+
 import { useEffect, useRef } from "react";
 import * as echarts from "echarts";
 

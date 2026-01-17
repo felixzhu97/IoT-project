@@ -23,8 +23,8 @@ export function createWrapper(
 ): React.ComponentType<{ children: React.ReactNode }> {
   return ({ children }) => {
     return providers.reduceRight(
-      (acc, Provider) => <Provider>{acc}</Provider>,
-      <>{children}</>
+      (acc, Provider) => React.createElement(Provider, {}, acc),
+      React.createElement(React.Fragment, {}, children)
     );
   };
 }
