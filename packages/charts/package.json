@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "echarts": "6.0.0",
-    "react": "19.2.0"
+    "react": "19.2.3"
   },
   "devDependencies": {
     "@iot/test-utils": "workspace:*",
@@ -40,8 +40,8 @@
     "@testing-library/react": "^16.1.0",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
     "typescript": "^5",
     "vitest": "^2.1.8"
   },
