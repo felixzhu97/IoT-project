@@ -19,6 +19,13 @@ package "应用层 (Application Layer)" {
     [packages/charts] as ChartsPackage
     [packages/utils] as UtilsPackage
     [packages/three-utils] as ThreeUtilsPackage <<3D工具库>>
+    [packages/aws] as AWSPackage <<AWS SDK>>
+    [packages/tools] as ToolsPackage <<IoT工具>>
+    [packages/compute] as ComputePackage <<计算工具>>
+    [packages/animation] as AnimationPackage <<动画工具>>
+    [packages/canvas] as CanvasPackage <<Canvas工具>>
+    [packages/i18n] as I18nPackage <<国际化>>
+    [packages/test-utils] as TestUtilsPackage <<测试工具>>
   }
   
   [TypeScript] as TypeScript
@@ -32,6 +39,27 @@ package "框架层 (Framework Layer)" {
   [Radix UI] as RadixUI <<UI组件>>
 }
 
+package "协议层 (Protocol Layer)" {
+  [MQTT] as MQTT <<MQTT客户端>>
+  [CoAP] as CoAP <<CoAP客户端>>
+  [Protocol Converter] as ProtocolConverter <<协议转换>>
+}
+
+package "序列化层 (Serialization Layer)" {
+  [Protobuf] as Protobuf <<Protobuf>>
+  [CBOR] as CBOR <<CBOR>>
+  [MessagePack] as MessagePack <<MessagePack>>
+}
+
+package "计算工具层 (Compute Tools Layer)" {
+  [Signal Processing] as Signal <<信号处理>>
+  [Statistics] as Stats <<统计分析>>
+  [Crypto] as Crypto <<加密>>
+  [Compression] as Compression <<压缩>>
+  [Image Processing] as Image <<图像处理>>
+  [Web Workers] as Workers <<Worker>>
+}
+
 package "构建工具层 (Build Tools Layer)" {
   [Next.js Build] as NextJSBuild
   [PostCSS] as PostCSS
@@ -41,12 +69,24 @@ package "构建工具层 (Build Tools Layer)" {
 package "运行时层 (Runtime Layer)" {
   [Node.js] as NodeJS
   [Vercel Runtime] as VercelRuntime
+  [AWS Lambda] as LambdaRuntime <<无服务器>>
+}
+
+package "云基础设施层 (Cloud Infrastructure Layer)" {
+  [AWS IoT Core] as IoTCore <<设备管理>>
+  [AWS Lambda] as Lambda <<无服务器>>
+  [AWS DynamoDB] as DynamoDB <<数据库>>
+  [AWS S3] as S3 <<对象存储>>
+  [AWS API Gateway] as APIGateway <<API管理>>
+  [AWS SNS] as SNS <<消息通知>>
+  [AWS SQS] as SQS <<消息队列>>
 }
 
 package "部署层 (Deployment Layer)" {
   [Vercel Platform] as Vercel
   [CDN] as CDN
   [Edge Functions] as EdgeFunctions
+  [AWS Cloud] as AWSCloud <<AWS云>>
 }
 
 ' 表示层关系
@@ -59,6 +99,12 @@ WebApp --> UIPackage
 WebApp --> ChartsPackage
 WebApp --> UtilsPackage
 WebApp --> ThreeUtilsPackage
+WebApp --> AWSPackage
+WebApp --> ToolsPackage
+WebApp --> ComputePackage
+WebApp --> AnimationPackage
+WebApp --> CanvasPackage
+WebApp --> I18nPackage
 WebApp --> TypeScript
 WebApp --> PnpmWorkspaces
 
@@ -68,6 +114,24 @@ ReactThreeFiber --> ThreeJS
 ThreeUtilsPackage --> ThreeJS
 WebApp --> ECharts
 UIPackage --> RadixUI
+
+' 协议层关系
+ToolsPackage --> MQTT
+ToolsPackage --> CoAP
+ToolsPackage --> ProtocolConverter
+
+' 序列化层关系
+ToolsPackage --> Protobuf
+ToolsPackage --> CBOR
+ToolsPackage --> MessagePack
+
+' 计算工具层关系
+ComputePackage --> Signal
+ComputePackage --> Stats
+ComputePackage --> Crypto
+ComputePackage --> Compression
+ComputePackage --> Image
+ComputePackage --> Workers
 
 ' 构建工具层关系
 NextJSApp --> NextJSBuild
@@ -79,11 +143,30 @@ TSCompiler --> TypeScript
 NextJSBuild --> NodeJS
 NextJSApp --> VercelRuntime
 VercelRuntime --> NodeJS
+AWSPackage --> LambdaRuntime
+LambdaRuntime --> NodeJS
+
+' 云基础设施层关系
+AWSPackage --> IoTCore
+AWSPackage --> Lambda
+AWSPackage --> DynamoDB
+AWSPackage --> S3
+AWSPackage --> APIGateway
+AWSPackage --> SNS
+AWSPackage --> SQS
 
 ' 部署层关系
 VercelRuntime --> Vercel
 Vercel --> CDN
 Vercel --> EdgeFunctions
+AWSPackage --> AWSCloud
+AWSCloud --> IoTCore
+AWSCloud --> Lambda
+AWSCloud --> DynamoDB
+AWSCloud --> S3
+AWSCloud --> APIGateway
+AWSCloud --> SNS
+AWSCloud --> SQS
 
 note right of PnpmWorkspaces
   Monorepo
@@ -106,6 +189,37 @@ end note
 note right of Vercel
   自动部署
   CI/CD
+end note
+
+note right of AWSPackage
+  AWS SDK集成
+  IoT Core, Lambda,
+  DynamoDB, S3,
+  API Gateway,
+  SNS/SQS
+end note
+
+note right of ToolsPackage
+  IoT协议工具
+  MQTT, CoAP,
+  Protobuf, CBOR,
+  MessagePack,
+  设备管理, OTA
+end note
+
+note right of ComputePackage
+  计算工具
+  信号处理、统计、
+  加密、压缩、
+  图像处理、Worker
+end note
+
+note right of AWSCloud
+  AWS云服务
+  设备管理
+  数据存储
+  消息服务
+  API管理
 end note
 
 @enduml

@@ -32,6 +32,13 @@ TOGAF (The Open Group Architecture Framework) 是企业架构开发的标准框�
 - UI 组件库：`@iot/ui`、`@iot/charts`、`@iot/utils`、`@iot/three-utils`
 - 业务组件：IoT 仪表盘、设备面板、图表面板
 - 应用服务层：设备服务、数据服务、告警服务、用户服务
+- AWS 服务集成层：`@iot/aws`（IoT Core、S3、Lambda、DynamoDB、SNS、SQS、API Gateway）
+- IoT 协议工具库：`@iot/tools`（MQTT、CoAP、Protobuf、CBOR、MessagePack、设备管理、OTA）
+- 计算工具库：`@iot/compute`（信号处理、统计分析、压缩、加密、图像处理、Web Workers）
+- 动画工具库：`@iot/animation`（缓动函数、动画控制器、关键帧、CSS 动画、时间轴）
+- Canvas 工具库：`@iot/canvas`（Canvas 2D 绘图、图像处理、粒子系统）
+- 国际化工具库：`@iot/i18n`（翻译字典、语言切换、React Hooks）
+- 测试工具库：`@iot/test-utils`（测试辅助函数、Fixtures）
 
 **文档位置**：`docs/togaf/application-architecture.puml`
 
@@ -41,6 +48,13 @@ TOGAF (The Open Group Architecture Framework) 是企业架构开发的标准框�
 - `packages/ui/` - UI 组件库
 - `packages/charts/` - 图表组件库
 - `packages/three-utils/` - 3D 工具库
+- `packages/aws/` - AWS 服务集成
+- `packages/tools/` - IoT 协议工具
+- `packages/compute/` - 计算工具库
+- `packages/animation/` - 动画工具库
+- `packages/canvas/` - Canvas 工具库
+- `packages/i18n/` - 国际化工具库
+- `packages/test-utils/` - 测试工具库
 
 ### Data Architecture（数据架构）
 
@@ -50,16 +64,40 @@ TOGAF (The Open Group Architecture Framework) 是企业架构开发的标准框�
 
 - 数据源层：IoT 设备、传感器数据、设备状态、网络流量
 - 数据采集层：数据采集服务、实时数据流、批量数据
+  - AWS IoT Core：设备消息路由和主题管理
+  - MQTT/CoAP 协议：设备通信协议栈
 - 数据处理层：数据转换、数据聚合、数据验证
+  - 序列化协议：Protobuf、CBOR、MessagePack
+  - 信号处理：`packages/compute/src/signal/`
+  - 统计分析：`packages/compute/src/stats/`
 - 数据存储层：实时数据缓存、时序数据库、设备元数据、配置数据
+  - AWS DynamoDB：NoSQL 数据存储
+  - AWS S3：对象存储（OTA 固件、配置文件、日志）
+  - AWS IoT Core Shadow：设备状态管理
 - 数据展示层：实时图表、历史报表、设备仪表盘、热力图
+- 消息服务层：消息队列和通知
+  - AWS SQS：消息队列服务
+  - AWS SNS：消息通知服务
+- API 服务层：数据访问接口
+  - AWS API Gateway：REST API 和 WebSocket
 
 **文档位置**：`docs/togaf/data-architecture.puml`
 
 **代码位置**：
 
+- `packages/aws/src/iot-core/` - AWS IoT Core 集成
+- `packages/aws/src/dynamodb/` - DynamoDB 数据访问
+- `packages/aws/src/s3/` - S3 对象存储
+- `packages/aws/src/sqs/` - SQS 消息队列
+- `packages/aws/src/sns/` - SNS 消息通知
+- `packages/aws/src/api-gateway/` - API Gateway 集成
+- `packages/tools/src/mqtt/` - MQTT 客户端
+- `packages/tools/src/coap/` - CoAP 客户端
+- `packages/tools/src/serialization/` - 序列化协议（Protobuf、CBOR、MessagePack）
 - `packages/compute/src/signal/` - 信号处理
 - `packages/compute/src/stats/` - 数据统计
+- `packages/compute/src/crypto/` - 数据加密
+- `packages/compute/src/compression/` - 数据压缩
 - `packages/charts/` - 数据可视化
 
 ### Technology Architecture（技术架构）
@@ -71,9 +109,19 @@ TOGAF (The Open Group Architecture Framework) 是企业架构开发的标准框�
 - 表示层：浏览器、Next.js 应用、Tailwind CSS
 - 应用层：Monorepo 结构、TypeScript、pnpm Workspaces
 - 框架层：React Three Fiber、Three.js、ECharts、Radix UI
+- 协议层：MQTT、CoAP（`@iot/tools`）
+- 序列化层：Protobuf、CBOR、MessagePack（`@iot/tools`）
+- 计算工具层：信号处理、统计分析、加密、压缩、图像处理（`@iot/compute`）
 - 构建工具层：Next.js Build、PostCSS、TypeScript Compiler
-- 运行时层：Node.js、Vercel Runtime
-- 部署层：Vercel Platform、CDN、Edge Functions
+- 运行时层：Node.js、Vercel Runtime、AWS Lambda
+- 云基础设施层：AWS 云服务
+  - AWS IoT Core：设备管理和消息路由
+  - AWS Lambda：无服务器函数计算
+  - AWS DynamoDB：NoSQL 数据库
+  - AWS S3：对象存储服务
+  - AWS API Gateway：API 管理和 WebSocket
+  - AWS SNS/SQS：消息通知和队列
+- 部署层：Vercel Platform、CDN、Edge Functions、AWS 云基础设施
 
 **文档位置**：`docs/togaf/technology-architecture.puml`
 
@@ -184,7 +232,7 @@ ADM 是 TOGAF 的架构开发方法，包含 9 个阶段（核心简化版）：
 
 ### 架构文档
 
-```
+```text
 docs/togaf/
 ├── overview.puml              # 总体架构概览
 ├── business-architecture.puml # 业务架构图
@@ -203,10 +251,28 @@ docs/togaf/
 - `packages/ui/` - UI 组件库层
 - `packages/charts/` - 图表组件库层
 - `packages/three-utils/` - 3D 工具库层
+- `packages/aws/` - AWS 服务集成层
+- `packages/tools/` - IoT 协议工具层（MQTT、CoAP、序列化、设备管理、OTA）
+- `packages/compute/` - 计算工具库层（信号处理、统计、加密、压缩、图像、Worker）
+- `packages/animation/` - 动画工具库层
+- `packages/canvas/` - Canvas 工具库层
+- `packages/i18n/` - 国际化工具库层
+- `packages/test-utils/` - 测试工具库层
 
 **数据架构** →
 
-- `packages/compute/src/` - 数据处理层
+- `packages/aws/src/iot-core/` - AWS IoT Core 数据采集
+- `packages/aws/src/dynamodb/` - DynamoDB 数据存储
+- `packages/aws/src/s3/` - S3 对象存储
+- `packages/aws/src/sqs/` - SQS 消息队列
+- `packages/aws/src/sns/` - SNS 消息通知
+- `packages/tools/src/mqtt/` - MQTT 协议数据流
+- `packages/tools/src/coap/` - CoAP 协议数据流
+- `packages/tools/src/serialization/` - 数据序列化（Protobuf、CBOR、MessagePack）
+- `packages/compute/src/signal/` - 信号处理
+- `packages/compute/src/stats/` - 数据统计
+- `packages/compute/src/crypto/` - 数据加密
+- `packages/compute/src/compression/` - 数据压缩
 - `packages/charts/src/` - 数据可视化层
 
 **技术架构** →
@@ -215,6 +281,9 @@ docs/togaf/
 - `tsconfig.json` - TypeScript 配置
 - `next.config.mjs` - Next.js 配置
 - `vercel.json` - 部署配置
+- `packages/aws/` - AWS SDK 配置和客户端
+- `packages/tools/` - IoT 协议栈实现
+- `packages/compute/` - 计算密集型工具实现
 
 ## 架构治理规则
 
@@ -226,7 +295,7 @@ docs/togaf/
 
 ### 依赖管理
 
-```
+```text
 业务架构 → 应用架构 → 数据架构 → 技术架构
 ```
 

@@ -17,12 +17,20 @@ package "数据采集层 (Data Collection Layer)" {
   [数据采集服务] as DataCollectionService
   [实时数据流] as RealTimeDataStream
   [批量数据] as BatchData
+  [AWS IoT Core] as IoTCore <<设备消息路由>>
+  [MQTT协议] as MQTT <<MQTT客户端>>
+  [CoAP协议] as CoAP <<CoAP客户端>>
 }
 
 package "数据处理层 (Data Processing Layer)" {
   [数据转换] as DataTransformation
   [数据聚合] as DataAggregation
   [数据验证] as DataValidation
+  [序列化协议] as Serialization <<Protobuf/CBOR/MessagePack>>
+  [信号处理] as Signal <<信号处理>>
+  [统计分析] as Stats <<统计分析>>
+  [数据加密] as Crypto <<加密>>
+  [数据压缩] as Compression <<压缩>>
 }
 
 package "数据存储层 (Data Storage Layer)" {
@@ -30,6 +38,9 @@ package "数据存储层 (Data Storage Layer)" {
   [时序数据库] as TimeSeriesDB
   [设备元数据] as DeviceMetadata
   [配置数据] as ConfigData
+  [AWS DynamoDB] as DynamoDB <<NoSQL数据库>>
+  [AWS S3] as S3 <<对象存储>>
+  [IoT Core Shadow] as Shadow <<设备状态>>
 }
 
 package "数据展示层 (Data Presentation Layer)" {
@@ -39,10 +50,16 @@ package "数据展示层 (Data Presentation Layer)" {
   [热力图] as Heatmaps
 }
 
+package "消息服务层 (Message Service Layer)" {
+  [AWS SQS] as SQS <<消息队列>>
+  [AWS SNS] as SNS <<消息通知>>
+}
+
 package "数据访问层 (Data Access Layer)" {
   [REST API] as RESTAPI
   [WebSocket] as WebSocket
   [GraphQL] as GraphQL
+  [AWS API Gateway] as APIGateway <<API管理>>
 }
 
 ' 数据源层关系
@@ -56,18 +73,34 @@ DeviceStatus --> DataCollectionService
 NetworkTraffic --> DataCollectionService
 DataCollectionService --> RealTimeDataStream
 DataCollectionService --> BatchData
+IoTDevices --> IoTCore
+IoTDevices --> MQTT
+IoTDevices --> CoAP
+MQTT --> DataCollectionService
+CoAP --> DataCollectionService
+IoTCore --> DataCollectionService
 
 ' 数据处理层关系
 RealTimeDataStream --> DataTransformation
 BatchData --> DataAggregation
 DataTransformation --> DataValidation
 DataAggregation --> DataValidation
+DataTransformation --> Serialization
+DataAggregation --> Serialization
+RealTimeDataStream --> Signal
+BatchData --> Stats
+DataTransformation --> Crypto
+DataAggregation --> Compression
 
 ' 数据存储层关系
 DataTransformation --> RealTimeCache
 DataAggregation --> TimeSeriesDB
 DeviceStatus --> DeviceMetadata
 DataValidation --> ConfigData
+DataAggregation --> DynamoDB
+DataTransformation --> S3
+DeviceStatus --> Shadow
+ConfigData --> S3
 
 ' 数据展示层关系
 RealTimeCache --> RealTimeCharts
@@ -75,11 +108,20 @@ TimeSeriesDB --> HistoricalReports
 DeviceMetadata --> DeviceDashboards
 TimeSeriesDB --> Heatmaps
 
+' 消息服务层关系
+DataTransformation --> SQS
+DataAggregation --> SNS
+AlertData --> SNS
+
 ' 数据访问层关系
 RealTimeCharts --> RESTAPI
 HistoricalReports --> RESTAPI
 DeviceDashboards --> WebSocket
 RealTimeCharts --> WebSocket
+RESTAPI --> APIGateway
+WebSocket --> APIGateway
+DynamoDB --> APIGateway
+S3 --> APIGateway
 
 note right of IoTDevices
   网关、传感器、
@@ -94,6 +136,38 @@ end note
 note right of TimeSeriesDB
   时序数据
   历史存储
+end note
+
+note right of IoTCore
+  AWS IoT Core
+  设备管理
+  消息路由
+end note
+
+note right of DynamoDB
+  DynamoDB
+  NoSQL数据库
+  设备数据
+end note
+
+note right of S3
+  S3对象存储
+  OTA固件
+  配置文件
+  日志文件
+end note
+
+note right of Serialization
+  序列化协议
+  Protobuf
+  CBOR
+  MessagePack
+end note
+
+note right of APIGateway
+  API Gateway
+  REST API
+  WebSocket
 end note
 
 @enduml

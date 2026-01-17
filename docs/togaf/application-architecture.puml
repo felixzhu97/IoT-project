@@ -19,6 +19,9 @@ package "UI组件库 (UI Component Library)" {
   [@iot/charts] as ChartComponents
   [@iot/utils] as Utils
   [@iot/three-utils] as ThreeUtils <<3D工具库>>
+  [@iot/animation] as Animation <<动画工具>>
+  [@iot/canvas] as Canvas <<Canvas工具>>
+  [@iot/i18n] as I18n <<国际化>>
 }
 
 package "业务组件 (Business Components)" {
@@ -34,6 +37,35 @@ package "应用服务层 (Application Service Layer)" {
   [数据服务] as DataService
   [告警服务] as AlertService
   [用户服务] as UserService
+}
+
+package "AWS服务集成层 (AWS Service Integration Layer)" {
+  [@iot/aws] as AWSServices <<AWS SDK>>
+  [IoT Core] as IoTCore <<设备管理>>
+  [Lambda] as Lambda <<无服务器>>
+  [DynamoDB] as DynamoDB <<数据库>>
+  [S3] as S3 <<对象存储>>
+  [SNS/SQS] as SNSSQS <<消息服务>>
+  [API Gateway] as APIGateway <<API管理>>
+}
+
+package "IoT协议工具层 (IoT Protocol Tools Layer)" {
+  [@iot/tools] as Tools <<协议工具>>
+  [MQTT] as MQTT <<MQTT客户端>>
+  [CoAP] as CoAP <<CoAP客户端>>
+  [Protocol] as Protocol <<协议转换>>
+  [Serialization] as Serialization <<序列化>>
+  [Device] as Device <<设备管理>>
+  [OTA] as OTA <<固件更新>>
+}
+
+package "计算工具层 (Compute Tools Layer)" {
+  [@iot/compute] as Compute <<计算工具>>
+  [信号处理] as Signal <<信号处理>>
+  [统计分析] as Stats <<统计分析>>
+  [加密压缩] as CryptoCompress <<加密压缩>>
+  [图像处理] as Image <<图像处理>>
+  [Web Workers] as Workers <<Worker>>
 }
 
 package "数据访问层 (Data Access Layer)" {
@@ -82,6 +114,41 @@ AlertService --> AlertDataAccess
 UIComponents --> Utils
 ChartComponents --> Utils
 ThreeUtils --> Utils
+UIComponents --> Animation
+UIComponents --> Canvas
+UIComponents --> I18n
+Scene3D --> Animation
+Scene3D --> Canvas
+
+' AWS服务集成层关系
+AWSServices --> IoTCore
+AWSServices --> Lambda
+AWSServices --> DynamoDB
+AWSServices --> S3
+AWSServices --> SNSSQS
+AWSServices --> APIGateway
+
+' IoT协议工具层关系
+Tools --> MQTT
+Tools --> CoAP
+Tools --> Protocol
+Tools --> Serialization
+Tools --> Device
+Tools --> OTA
+
+' 计算工具层关系
+Compute --> Signal
+Compute --> Stats
+Compute --> CryptoCompress
+Compute --> Image
+Compute --> Workers
+
+' 应用服务层使用AWS和IoT工具
+DeviceService --> AWSServices
+DeviceService --> Tools
+DataService --> AWSServices
+DataService --> Compute
+AlertService --> AWSServices
 
 note right of WebApp
   Next.js 16
@@ -105,6 +172,28 @@ note right of ThreeUtils
   动画、相机、
   场景、特效、
   加载器、交互
+end note
+
+note right of AWSServices
+  AWS SDK集成
+  IoT Core, Lambda,
+  DynamoDB, S3,
+  SNS/SQS, API Gateway
+end note
+
+note right of Tools
+  IoT协议工具
+  MQTT, CoAP,
+  Protobuf, CBOR,
+  MessagePack,
+  设备管理, OTA
+end note
+
+note right of Compute
+  计算工具
+  信号处理、统计、
+  加密、压缩、
+  图像处理、Worker
 end note
 
 @enduml

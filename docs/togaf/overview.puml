@@ -18,6 +18,11 @@ package "应用架构层 (Application Architecture)" {
   [图表组件库] as AppChartComponents
   [3D工具库] as AppThreeUtils
   [业务组件] as AppBusinessComponents
+  [AWS服务集成] as AppAWSServices <<AWS SDK>>
+  [IoT协议工具] as AppIOTTools <<MQTT/CoAP>>
+  [计算工具库] as AppCompute <<计算工具>>
+  [动画Canvas工具] as AppAnimationCanvas <<动画/Canvas>>
+  [国际化工具] as AppI18n <<国际化>>
 }
 
 package "数据架构层 (Data Architecture)" {
@@ -25,6 +30,10 @@ package "数据架构层 (Data Architecture)" {
   [数据处理] as DataProcessing
   [数据存储] as DataStorage
   [数据展示] as DataPresentation
+  [协议层] as DataProtocol <<MQTT/CoAP>>
+  [序列化层] as DataSerialization <<Protobuf/CBOR/MessagePack>>
+  [AWS数据服务] as DataAWSServices <<DynamoDB/S3/IoT Core>>
+  [消息服务] as DataMessageServices <<SNS/SQS>>
 }
 
 package "技术架构层 (Technology Architecture)" {
@@ -32,7 +41,12 @@ package "技术架构层 (Technology Architecture)" {
   [React生态系统] as TechReact
   [TypeScript] as TechTypeScript
   [Monorepo架构] as TechMonorepo
+  [协议栈] as TechProtocolStack <<MQTT/CoAP>>
+  [序列化协议] as TechSerialization <<Protobuf/CBOR/MessagePack>>
+  [计算工具] as TechCompute <<信号处理/统计/加密/压缩>>
+  [AWS云服务] as TechAWS <<IoT Core/Lambda/DynamoDB/S3/API Gateway>>
   [Vercel部署] as TechVercel
+  [AWS云基础设施] as TechAWSCloud
 }
 
 ' 业务架构到应用架构
@@ -45,16 +59,31 @@ AppWebFrontend --> AppUIComponents
 AppWebFrontend --> AppChartComponents
 AppWebFrontend --> AppThreeUtils
 AppWebFrontend --> AppBusinessComponents
+AppWebFrontend --> AppAWSServices
+AppWebFrontend --> AppIOTTools
+AppWebFrontend --> AppCompute
+AppWebFrontend --> AppAnimationCanvas
+AppWebFrontend --> AppI18n
 
 ' 应用架构到数据架构
 AppBusinessComponents --> DataCollection
 AppBusinessComponents --> DataProcessing
 AppBusinessComponents --> DataPresentation
+AppAWSServices --> DataAWSServices
+AppAWSServices --> DataMessageServices
+AppIOTTools --> DataProtocol
+AppIOTTools --> DataSerialization
+AppCompute --> DataProcessing
 
 ' 数据架构内部关系
 DataCollection --> DataProcessing
 DataProcessing --> DataStorage
 DataStorage --> DataPresentation
+DataCollection --> DataProtocol
+DataProcessing --> DataSerialization
+DataStorage --> DataAWSServices
+DataProcessing --> DataMessageServices
+DataAWSServices --> DataMessageServices
 
 ' 应用架构到技术架构
 AppWebFrontend --> TechNextJS
@@ -62,10 +91,16 @@ AppUIComponents --> TechReact
 AppChartComponents --> TechReact
 TechNextJS --> TechTypeScript
 TechNextJS --> TechMonorepo
+AppIOTTools --> TechProtocolStack
+AppIOTTools --> TechSerialization
+AppCompute --> TechCompute
+AppAWSServices --> TechAWS
 
 ' 技术架构到部署
 TechNextJS --> TechVercel
 TechMonorepo --> TechVercel
+TechAWS --> TechAWSCloud
+TechNextJS --> TechAWSCloud
 
 note right of BizDeviceMgmt
   业务能力：
@@ -97,6 +132,34 @@ note right of TechMonorepo
   技术能力：
   pnpm workspaces
   包管理
+end note
+
+note right of AppAWSServices
+  AWS服务集成：
+  IoT Core, Lambda,
+  DynamoDB, S3,
+  API Gateway,
+  SNS/SQS
+end note
+
+note right of AppIOTTools
+  IoT协议工具：
+  MQTT, CoAP,
+  Protobuf, CBOR,
+  MessagePack,
+  设备管理, OTA
+end note
+
+note right of DataAWSServices
+  AWS数据服务：
+  DynamoDB, S3,
+  IoT Core Shadow
+end note
+
+note right of TechAWS
+  AWS云服务：
+  设备管理、数据存储、
+  消息服务、API管理
 end note
 
 @enduml
